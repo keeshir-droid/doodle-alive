@@ -17,8 +17,8 @@ Day 3 of *21 Days of Creative Tech*. Everyone doodles while they're on a call or
 1. **Snap.** The phone camera (or a photo from the gallery) brings the doodle in.
 2. **Lift.** The page works out what blank paper would look like at every spot, so shadows and uneven light disappear, then keeps only what's darker: the ink. Ruled and grid lines are found and wiped, while pen that crosses a line is kept. Dust is dropped, and the biggest doodle is chosen.
 3. **Come alive.** The outline is traced and redrawn with a tiny hand-drawn "boil" wobble and one of six motions (Wiggle, Bounce, Float, Sway, Jelly, Shiver). It draws itself in the first second, then loops.
-4. **Backgrounds.** Ten backgrounds drawn in code (notebook, gingham, wavy checks, graph paper, dot journal, polaroid, strawberries, collage, watercolour, night neon), with a white die-cut sticker outline on the busy ones. Optional text, in one of three fonts.
-5. **Share.** The video makes itself in the background (a real MP4, 1080×1920, about 3 MB). **Share** opens the phone's share sheet. A transparent sticker PNG can be saved too.
+4. **Backgrounds.** Ten backgrounds drawn in code (notebook, gingham, wavy checks, graph paper, dot journal, polaroid, strawberries, collage, watercolour, night neon), with a white die-cut outline around the doodle on the busy ones. Optional text, in one of three fonts.
+5. **Share.** The video makes itself in the background (a real MP4, 1080×1920, about 3 MB). **Share to your story** opens the phone's share sheet. A doodle-only PNG with a transparent background can be saved too.
 
 Everything happens in the browser on the phone. There is no server, no API key and no AI model. It is plain HTML, CSS and JavaScript with no build step. The only library is a small MIT-licensed MP4 muxer (`mp4-muxer`), loaded only when a video is made.
 

@@ -16,8 +16,8 @@
     "unreadable": { title: "I couldn’t open that picture.", detail: "Try a different photo, or take a screenshot of it and use that." },
     "no-doodle": { title: "Hmm, I couldn’t find a doodle.", detail: "Try a darker pen, more light, or get a bit closer." },
     "too-faint": { title: "That doodle is too faint for me to see.", detail: "Go over it with a darker pen, or take the photo in brighter light." },
-    "video-unsupported": { title: "This browser can’t make videos.", detail: "You can still save the sticker!" },
-    "video-failed": { title: "Making the video didn’t work.", detail: "Please try again. You can still save the sticker." }
+    "video-unsupported": { title: "This browser can’t make videos.", detail: "You can still save your doodle on its own!" },
+    "video-failed": { title: "Making the video didn’t work.", detail: "Please try again. You can still save your doodle on its own." }
   };
 
   function errorInfo(code, overrides) {

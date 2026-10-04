@@ -45,7 +45,7 @@
         id: r[0], name: r[1], busy: r[2], ink: r[3], textColor: r[3], base: r[4],
         doodleBox: { x: 120, y: 430, w: 840, h: 900 }, doodleBoxWithText: { x: 120, y: 370, w: 840, h: 880 },
         text: { x: 120, y: 1300, w: 840, h: 160, align: "center", style: "plain" },
-        mark: { x: 120, y: 1490, w: 840, h: 40, plate: false },
+        mark: { x: 590, y: 1495, w: 400, h: 40, plate: false },
         outlineAuto: r[0] === "watercolour"
       };
     });
@@ -119,7 +119,7 @@
     const jobs = [];
     const f = FONTS.filter(function (x) { return x.id === fontId; })[0] || FONTS[0];
     if (text) jobs.push(document.fonts.load(FONT_STYLE[f.id].weight + " 48px " + f.family, text));
-    jobs.push(document.fonts.load("600 34px Fredoka", MARK_TEXT));
+    jobs.push(document.fonts.load("600 24px Fredoka", MARK_TEXT));
     try { await Promise.race([Promise.all(jobs), delay(3000)]); } catch (e) { /* use the fallback font */ }
   }
   function fontString(fontId, size) {
@@ -200,14 +200,16 @@
     }
     ctx.restore();
   }
+  // the made-with mark: small, right-aligned at x = 990 (zone.x + zone.w), quiet; a touch stronger where the background is dark or mottled
+  const MARK_ALPHA = { "night-neon": 0.7, "watercolour": 0.7 };
   function drawMark(ctx, bg) {
-    const m = bg.mark || { x: 120, y: 1490, w: 840, h: 40, plate: false };
+    const m = bg.mark || { x: 590, y: 1495, w: 400, h: 40, plate: false };
     ctx.save();
-    ctx.font = "600 34px Fredoka, " + FONT_STYLE.fredoka.fallback;
+    ctx.font = "600 24px Fredoka, " + FONT_STYLE.fredoka.fallback;
     ctx.fillStyle = bg.textColor || bg.ink;
-    ctx.globalAlpha = 0.85;
-    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-    ctx.fillText(MARK_TEXT, m.x + m.w / 2, m.y + m.h / 2, m.w);
+    ctx.globalAlpha = MARK_ALPHA[bg.id] || (m.plate ? 0.8 : 0.6);
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    ctx.fillText(MARK_TEXT, m.x + m.w, m.y + m.h / 2, m.w);
     ctx.restore();
   }
 

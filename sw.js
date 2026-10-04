@@ -1,7 +1,7 @@
 /* Doodle Alive service worker: opens fast and works once it has been loaded.
    Bump CACHE on every deploy so updates arrive (the old cache is deleted on activate).
    Served with Cache-Control: no-cache (see vercel.json). Not registered on localhost. */
-const CACHE = "doodle-alive-v2";
+const CACHE = "doodle-alive-v3";
 
 const SHELL = [
   "./",

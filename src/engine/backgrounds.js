@@ -16,7 +16,9 @@
   const DBOX = { x: 120, y: 400, w: 840, h: 900 };      // centre y 850
   const DBOX_T = { x: 120, y: 380, w: 840, h: 880 };    // centre y 820, ends 1260 (text zone starts 1300)
   const TEXT = { x: 120, y: 1300, w: 840, h: 160, align: "center" };
-  const MARK = { x: 230, y: 1490, w: 620, h: 44 };
+  // the made-with mark: small, right-aligned to x = 990 (the zone is the most the text may use; compose.js draws it, the plate here hugs its width)
+  const MARK = { x: 590, y: 1495, w: 400, h: 40 };
+  const MARK_TEXT = "made with doodle-alive.vercel.app", MARK_FONT = "600 24px Fredoka, \"Trebuchet MS\", system-ui, sans-serif";
 
   function copy(o) { return { x: o.x, y: o.y, w: o.w, h: o.h }; }
   function entry(id, name, busy, ink, textColor, style, plate, extra) {
@@ -399,14 +401,17 @@
     }
   };
 
+  // a small pill just big enough for the mark text (about 70% opaque), so the mark stays readable without shouting
   function markPlate(ctx, bg) {
-    const m = bg.mark, x = m.x - 22, y = m.y - 10, w = m.w + 44, h = m.h + 20;
+    const m = bg.mark;
     ctx.save();
-    shadow(ctx, "rgba(40,20,50,0.25)", 9, 4);
-    rr(ctx, x, y, w, h, 14); ctx.fillStyle = "#FFFBF2"; ctx.fill();
+    ctx.font = MARK_FONT;
+    const tw = Math.min(m.w, ctx.measureText(MARK_TEXT).width);
+    const x = m.x + m.w - tw - 16, y = m.y - 2, w = tw + 30, h = m.h + 4;
+    ctx.globalAlpha = 0.7;
+    shadow(ctx, "rgba(40,20,50,0.18)", 6, 3);
+    rr(ctx, x, y, w, h, h / 2); ctx.fillStyle = "#FFFBF2"; ctx.fill();
     noShadow(ctx);
-    ctx.strokeStyle = "rgba(60,40,60,0.28)"; ctx.lineWidth = 2; ctx.setLineDash([9, 7]);
-    rr(ctx, x + 6, y + 6, w - 12, h - 12, 9); ctx.stroke();
     ctx.restore();
   }
 
@@ -879,7 +884,7 @@
       if (n % 4 === 0) { circlePath(ctx, x, y, 6 + r() * 3); ctx.fillStyle = "#2F4C9A"; ctx.fill(); }
       else { const sr = 15 + r() * 11; starPath(ctx, x, y, sr, sr * 0.42, 5, r() * 1.2); ctx.fillStyle = seq[n % seq.length]; ctx.fill(); starPath(ctx, x - 1, y - 1, sr * 0.45, sr * 0.2, 5, 0.3); ctx.fillStyle = "rgba(255,255,255,0.35)"; ctx.fill(); }
     }
-    [[120, 330, 30], [960, 1520, 30], [900, 280, 22], [200, 1580, 24], [60, 1010, 18], [1020, 620, 20]].forEach(function (p) {
+    [[120, 330, 30], [960, 1625, 30], [900, 280, 22], [200, 1580, 24], [60, 1010, 18], [1020, 620, 20]].forEach(function (p) {
       fillSpark(ctx, p[0], p[1], p[2], "rgba(255,255,255,0.95)");
     });
   }

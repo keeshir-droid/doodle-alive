@@ -38,7 +38,7 @@
   function cancelled() { return U().error("cancelled", { title: "Cancelled.", detail: "Making the video was stopped." }); }
   function failed(e, what) {
     if (typeof console !== "undefined" && e) console.error(e);
-    if (what === "sticker") return U().error("video-failed", { title: "Making the sticker didn’t work.", detail: "Please try again." });
+    if (what === "sticker") return U().error("video-failed", { title: "Making the doodle file didn’t work.", detail: "Please try again." });
     return U().error("video-failed");
   }
   function throwIfAborted(signal) { if (signal && signal.aborted) throw cancelled(); }
@@ -268,7 +268,7 @@
       fill("ink", snap.resolved.ink);
       const blob = await new Promise(function (res) { canvas.toBlob(res, "image/png"); });
       if (!blob) throw new Error("toBlob gave nothing");
-      return new File([blob], "doodle-alive-sticker-" + stamp() + ".png", { type: "image/png" });
+      return new File([blob], "doodle-alive-doodle-" + stamp() + ".png", { type: "image/png" });
     } catch (e) {
       throw failed(e, "sticker");
     }

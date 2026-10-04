@@ -778,14 +778,8 @@ const SIBLING = {
   }
 
   function shareTip() {
-    var plat = platform();
-    if (S.shareMode === "save") {
-      return plat === "ios"
-        ? "Save it to Photos, then post from Instagram: new story, pick it."
-        : "This browser can't open the share sheet. Save it, then post it from your gallery.";
-    }
-    if (plat === "ios") return "Tip: Save video puts it in Photos. Then Instagram, new story, pick it.";
-    return "Tip: Instagram, new story, pick it from your gallery.";
+    if (S.shareMode === "save") return "Then post it: Instagram, New story, pick it from your gallery.";
+    return "Pick Instagram, then Story.";
   }
 
   function renderBar() {
@@ -795,7 +789,7 @@ const SIBLING = {
     $("barFail").hidden = !(p === "nosupport" || p === "failed");
     if (p === "ready") {
       var save = S.shareMode === "save";
-      $("shareLabel").textContent = save ? "Save video" : "Share";
+      $("shareLabel").textContent = save ? "Save video" : "Share to your story";
       $("shareIcon").innerHTML = decor() ? DA.decor.icon(save ? "save" : "share") : "";
       $("btnSaveVideo").hidden = save;
       $("btnSaveSticker").hidden = !S.stickerFile;
@@ -807,7 +801,7 @@ const SIBLING = {
       $("failDetail").textContent = f.detail;
       $("failDetail").hidden = !f.detail;
       var btn = $("btnFail");
-      if (p === "nosupport" && S.stickerFile) btn.textContent = "Save sticker";
+      if (p === "nosupport" && S.stickerFile) btn.textContent = "Save doodle only";
       else if (p === "nosupport") btn.textContent = "Back to my doodle";
       else btn.textContent = "Try again";
     }
@@ -833,12 +827,12 @@ const SIBLING = {
     if (result === "cancelled") return;
     if (result === "failed") {
       toast(mode === "share"
-        ? "Sharing didn't open. Tap Save video, then post it from your gallery."
+        ? "Sharing didn't open. Tap Save to your phone, then post it from your gallery."
         : "That didn't save. Give it another tap.");
       return;
     }
     if (mode === "share") toast("Sent! Someone's about to smile.");
-    else if (result === "saved") toast(kind === "sticker" ? "Sticker saved." : "Saved. Now post it from your gallery.");
+    else if (result === "saved") toast(kind === "sticker" ? "Doodle saved." : "Saved. Now post it from your gallery.");
     else toast("All set.");
     maybeShowA2hs(false);
   }
@@ -968,13 +962,13 @@ const SIBLING = {
     } else if (d === "done" || d === "a2hs") {
       S.forceShareUI = true;
       S.videoFile = fakeFile("doodle-alive-preview.mp4", "video/mp4");
-      S.stickerFile = fakeFile("doodle-alive-sticker.png", "image/png");
+      S.stickerFile = fakeFile("doodle-alive-doodle.png", "image/png");
       S.phase = "ready";
       S.shareMode = "share";
       if (d === "a2hs") maybeShowA2hs(true);
     } else if (d === "error-video") {
-      S.fail = { code: "video-unsupported", title: "This browser can't make videos.", detail: "You can still save the sticker!" };
-      S.stickerFile = fakeFile("doodle-alive-sticker.png", "image/png");
+      S.fail = { code: "video-unsupported", title: "This browser can't make videos.", detail: "You can still save your doodle on its own!" };
+      S.stickerFile = fakeFile("doodle-alive-doodle.png", "image/png");
       S.phase = "nosupport";
     } else {
       S.noAuto = false;
