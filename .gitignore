@@ -1,0 +1,19 @@
+# Personal test material: never commit
+tests/real/
+tests/out/
+shots/
+
+# Mood images found online: mood only, not ours to publish
+notes/references/*.png
+notes/references/*.jpg
+notes/references/*.jpeg
+notes/references/*.webp
+
+# Tooling and OS junk
+node_modules/
+__pycache__/
+.DS_Store
+Thumbs.db
+.vercel
+
+tests/engine/out/

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Doodle Alive: snap a doodle, watch it come alive</title>
+  <meta name="description" content="Snap a doodle from your notebook and watch it wiggle on a cute background. Share it as a story. Free, no account, and your photo stays on your phone.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FBF7EE">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Doodle Alive">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta property="og:title" content="Doodle Alive: snap a doodle, watch it come alive">
+  <meta property="og:description" content="Turn a notebook doodle into a wiggling story video. Free, no account, nothing leaves your phone.">
+  <meta property="og:type" content="website">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="preload" href="fonts/fredoka-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/caveat-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+<body data-screen="landing">
+  <noscript>
+    <div class="noscript">
+      <h1>Doodle Alive needs JavaScript</h1>
+      <p>Switch it on in your browser settings and give this page a refresh. Then snap a doodle!</p>
+    </div>
+  </noscript>
+
+  <div id="app">
+
+    <!-- Landing -->
+    <section id="screen-landing" class="screen screen-landing landing" aria-label="Doodle Alive">
+      <div class="decor" data-decor="page-landing" aria-hidden="true"></div>
+      <header class="top">
+        <a class="wordmark" href="./" aria-label="doodle alive, home">doodle alive<span class="squig" data-squiggle aria-hidden="true"></span></a>
+      </header>
+      <main class="landing-main">
+        <div class="hero-wrap">
+          <div class="decor hero-decor" data-decor="hero" aria-hidden="true"></div>
+          <div class="hero-card" id="heroCard" role="img" aria-label="A little cat doodle wiggling on a pastel background">
+            <span class="tape tape-top" aria-hidden="true"></span>
+            <div class="hero-screen">
+              <div class="decor hero-fallback" data-decor="hero-fallback" aria-hidden="true"></div>
+              <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="landing-copy">
+          <h1 class="headline" tabindex="-1">Snap a doodle.<br>Watch it come alive.</h1>
+          <div class="cta">
+            <div class="annot" aria-hidden="true"><span>any doodle works!</span><span class="annot-arrow" data-arrow></span></div>
+            <button id="btnSnap" class="btn btn-primary" type="button"><span data-icon="camera" aria-hidden="true"></span><span>Snap a doodle</span></button>
+          </div>
+          <p class="links">
+            <button id="btnChoose" class="link" type="button">Choose a photo</button>
+            <span class="dot" aria-hidden="true">&middot;</span>
+            <button id="btnSample" class="link" type="button">Try a sample doodle</button>
+          </p>
+          <p class="trust">Free. No account. Your photo stays on your phone.</p>
+          <p class="desk-hint">On a computer? Paste a picture or drop one right here.</p>
+        </div>
+      </main>
+      <div data-footer></div>
+    </section>
+
+    <!-- Working: the photo shrinks into the card -->
+    <section id="screen-working" class="screen working" aria-live="polite" aria-label="Getting your doodle ready">
+      <div class="decor" data-decor="work" aria-hidden="true"></div>
+      <div class="work-card" id="workCard">
+        <span class="tape tape-top" aria-hidden="true"></span>
+        <div class="work-photo" id="workPhoto"><img id="workImg" alt=""></div>
+      </div>
+      <p class="work-line" id="workLine">peeling your doodle off the paper&hellip;</p>
+    </section>
+
+    <!-- Editor / result -->
+    <section id="screen-editor" class="screen screen-editor editor" aria-label="Your doodle">
+      <header class="editor-top">
+        <button id="btnNew" class="btn-back" type="button"><span data-icon="back" aria-hidden="true"></span><span>New doodle</span></button>
+      </header>
+
+      <div class="stage" id="stage">
+        <div class="decor" data-decor="stage" aria-hidden="true"></div>
+        <div class="story" id="story">
+          <span class="tape tape-top" aria-hidden="true"></span>
+          <canvas id="storyCanvas" role="img" aria-label="your doodle, animated"></canvas>
+        </div>
+        <div class="multi" id="multi" hidden>
+          <button id="miniPhoto" class="mini-photo" type="button" aria-label="Pick another doodle from your photo"><canvas id="miniCanvas" width="2" height="2"></canvas></button>
+          <p class="multi-hint">tap another doodle to use it</p>
+        </div>
+      </div>
+
+      <div class="controls" id="controls">
+        <div class="ctl">
+          <h2 class="ctl-title">Background <small id="bgName"></small></h2>
+          <div class="bg-row" id="bgRow" role="group" aria-label="Background"></div>
+        </div>
+        <div class="ctl">
+          <h2 class="ctl-title">Motion</h2>
+          <div class="chips" id="motionRow" role="group" aria-label="Motion"></div>
+        </div>
+        <div class="text-row">
+          <button id="btnText" class="link-btn" type="button"><span data-icon="text" aria-hidden="true"></span><span id="btnTextLabel">Add text</span></button>
+        </div>
+      </div>
+
+      <div class="bar" id="bar">
+        <div class="bar-making" id="barMaking">
+          <button id="btnMaking" class="btn btn-primary is-busy" type="button" aria-disabled="true"><span id="makingLabel">Making it&hellip;</span></button>
+          <div class="pencil-track" id="pencilTrack" role="progressbar" aria-label="Making your video" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <span class="pencil-base"></span>
+            <span class="pencil-fill"></span>
+            <span class="pencil-ico" data-pencil></span>
+          </div>
+        </div>
+        <div class="bar-done" id="barDone" hidden>
+          <button id="btnShare" class="btn btn-primary" type="button"><span id="shareIcon" aria-hidden="true"></span><span id="shareLabel">Share</span></button>
+          <div class="bar-links" id="barLinks">
+            <button id="btnSaveVideo" class="link-btn" type="button">Save video</button>
+            <button id="btnSaveSticker" class="link-btn" type="button" hidden>Save sticker</button>
+          </div>
+          <p class="tip" id="shareTip"></p>
+        </div>
+        <div class="bar-fail" id="barFail" hidden>
+          <p class="fail-title" id="failTitle"></p>
+          <p class="fail-detail" id="failDetail"></p>
+          <button id="btnFail" class="btn btn-primary" type="button">Try again</button>
+        </div>
+        <div class="a2hs-line" id="a2hsLine" hidden>
+          <p id="a2hsText"></p>
+          <button id="a2hsInstall" class="link-btn" type="button" hidden>Add it</button>
+          <button id="a2hsClose" class="a2hs-x" type="button" aria-label="Hide this tip">&times;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Errors: photo problems -->
+    <section id="screen-error" class="screen error" aria-label="Something went wrong">
+      <div class="decor" data-decor="error" aria-hidden="true"></div>
+      <div class="err-main">
+        <div class="err-card">
+          <span class="tape tape-top" aria-hidden="true"></span>
+          <div class="err-art" id="errArt" aria-hidden="true"></div>
+          <h1 class="err-title" id="errTitle" tabindex="-1"></h1>
+          <p class="err-detail" id="errDetail"></p>
+          <button id="errBtn" class="btn btn-primary" type="button">Try again</button>
+          <button id="errLink" class="link" type="button">Back to the start</button>
+        </div>
+      </div>
+      <div data-footer></div>
+    </section>
+
+    <!-- Broken: the doodle engine didn't load -->
+    <section id="screen-broken" class="screen error" aria-label="Doodle Alive didn't load">
+      <div class="decor" data-decor="error" aria-hidden="true"></div>
+      <div class="err-main">
+        <div class="err-card">
+          <span class="tape tape-top" aria-hidden="true"></span>
+          <div class="err-art" data-art="sad" aria-hidden="true"></div>
+          <h1 class="err-title" tabindex="-1">Doodle Alive is still waking up.</h1>
+          <p class="err-detail">Something didn't load. Check your connection and give it another go.</p>
+          <button id="brokenBtn" class="btn btn-primary" type="button">Refresh</button>
+        </div>
+      </div>
+      <div data-footer></div>
+    </section>
+
+  </div>
+
+  <!-- Story frame only (address shortcut screen=frame) -->
+  <div id="frameHolder"><canvas id="frameCanvas" width="1080" height="1920"></canvas></div>
+
+  <!-- Add text sheet -->
+  <div class="sheet-backdrop" id="sheetBackdrop" hidden></div>
+  <div class="sheet" id="textSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+    <div class="handle" aria-hidden="true"></div>
+    <h2 id="sheetTitle" class="sheet-title">A few words for under your doodle</h2>
+    <label class="vh" for="textInput">Text under your doodle</label>
+    <textarea id="textInput" rows="2" placeholder="your words go here" enterkeyhint="done" autocomplete="off" autocapitalize="sentences"></textarea>
+    <div class="sheet-meta"><span>Two short lines work best.</span><span id="textCount">0/40</span></div>
+    <div class="chips chips-wrap" id="fontRow" role="group" aria-label="Font"></div>
+    <div class="sheet-actions">
+      <button id="textClear" class="link-btn" type="button">Clear</button>
+      <button id="textDone" class="btn btn-primary" type="button">Done</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="drop" aria-hidden="true">Drop it here</div>
+
+  <!-- Photo inputs: camera and gallery -->
+  <input id="cameraInput" class="vh" type="file" accept="image/*" capture="environment" tabindex="-1" aria-hidden="true">
+  <input id="galleryInput" class="vh" type="file" accept="image/*" tabindex="-1" aria-hidden="true">
+
+  <script defer src="src/engine/util.js"></script>
+  <script defer src="src/engine/decode.js"></script>
+  <script defer src="src/engine/cleanup.js"></script>
+  <script defer src="src/engine/trace.js"></script>
+  <script defer src="src/engine/backgrounds.js"></script>
+  <script defer src="src/engine/animate.js"></script>
+  <script defer src="src/engine/compose.js"></script>
+  <script defer src="src/engine/export.js"></script>
+  <script defer src="src/engine/share.js"></script>
+  <script defer src="src/engine/sample.js"></script>
+  <script defer src="src/decor.js"></script>
+  <script defer src="src/app.js"></script>
+</body>
+</html>

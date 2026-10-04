@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <circle cx="11" cy="11" r="3.6" fill="#fff" opacity=".28"/>
+    </pattern>
+  </defs>
+  <rect width="512" height="512" fill="#9C9BE3"/>
+  <rect width="512" height="512" fill="url(#dots)"/>
+  <g transform="translate(256 256) scale(.74) translate(-256 -256)">
+    <polygon fill="#FAD15A" stroke="#FAD15A" stroke-width="6" stroke-linejoin="round" points="481,256 434.7,303.9 450.9,368.5 386.8,386.8 368.5,450.9 303.9,434.7 256,481 208.1,434.7 143.5,450.9 125.2,386.8 61.1,368.5 77.3,303.9 31,256 77.3,208.1 61.1,143.5 125.2,125.2 143.5,61.1 208.1,77.3 256,31 303.9,77.3 368.5,61.1 386.8,125.2 450.9,143.5 434.7,208.1"/>
+    <path d="M256 132 C330 122 395 182 392 262 C390 342 340 404 256 404 C170 404 120 347 122 267 C124 187 185 140 256 132 Z" fill="#24203A" transform="translate(12 12)"/>
+    <path d="M256 132 C330 122 395 182 392 262 C390 342 340 404 256 404 C170 404 120 347 122 267 C124 187 185 140 256 132 Z" fill="#FFFDF8" stroke="#24203A" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M256 130 C246 98 280 90 270 62" fill="none" stroke="#24203A" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="222" cy="258" r="13" fill="#24203A"/>
+    <circle cx="290" cy="258" r="13" fill="#24203A"/>
+    <ellipse cx="196" cy="294" rx="16" ry="10" fill="#F27BB1" opacity=".75"/>
+    <ellipse cx="316" cy="294" rx="16" ry="10" fill="#F27BB1" opacity=".75"/>
+    <path d="M226 296 Q256 330 286 296" fill="none" stroke="#24203A" stroke-width="12" stroke-linecap="round"/>
+  </g>
+</svg>
