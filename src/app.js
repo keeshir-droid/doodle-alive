@@ -506,11 +506,25 @@ const SIBLING = {
     row.scrollLeft = tile.offsetLeft - (row.clientWidth - tile.offsetWidth) / 2;
   }
 
+  /* On short phone screens (the visible area of a phone browser is much shorter than the screen) the bottom bar sat
+     on top of the "Add text" link. There, the link moves up beside "New doodle", which is also free space for the preview. */
+  function placeTextBtn() {
+    var btn = $("btnText");
+    var row = btn && btn.parentNode && btn.parentNode.classList.contains("text-row") ? btn.parentNode : $("textRow");
+    var top = document.querySelector(".editor-top");
+    if (!btn || !row || !top) return;
+    var short = W.matchMedia("(max-width: 899px) and (max-height: 760px)").matches;
+    var target = short ? top : row;
+    if (btn.parentNode !== target) target.appendChild(btn);
+    row.classList.toggle("is-empty", short);
+  }
+
   /* size the story card to the biggest 9:16 that fits the stage */
   function fitStory() {
     var stage = $("stage");
     var story = $("story");
     if (!stage || !story) return;
+    placeTextBtn();
     var pad = 12;
     var w = stage.clientWidth - pad * 2;
     var h = stage.clientHeight - pad * 2;
